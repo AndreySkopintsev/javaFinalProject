@@ -3,11 +3,13 @@ import java.util.Scanner;
 class Main{
     void main() {
         //TODO пока разбиение на задачи для группы видится как:
-        // 1) main функция: тут реализовать интерфейс для пользователя, убрать все в методы, тестить все остальные ветки + комменты
-        // 2) CustomClass + builder (папка customClass)
-        // 3) Методы чтения входных данных (папка readingInfo)
-        // 4) Бинарный поиск + strategy pattern (папка binarySearch)
-        // 5) Сортировка + strategy pattern (папка sorting) (я бы её тиснул)
+        // София 1) main функция: тут реализовать интерфейс для пользователя, убрать все в методы, тестить все остальные ветки
+        // + комменты
+        // + валидация
+        // Алексей 2) CustomClass + builder (папка customClass)
+        // Павел 3) Методы чтения входных данных + strategy pattern (папка readingInfo)
+        // Виталий 4) Бинарный поиск (папка binarySearch)
+        // Андрей 5) Сортировка  (папка sorting)
         // Так же каждый делает по файлу для теста своих методов в папке tests.
         Scanner inputScanner = new Scanner(System.in);
 
