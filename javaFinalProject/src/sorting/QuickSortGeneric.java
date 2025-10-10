@@ -1,9 +1,10 @@
 package sorting;
 
+
 public class QuickSortGeneric <T extends Comparable<? super T>> {
     public void quicksort(T[] array, int startIndex, int endIndex)
     {
-        // verify that the start and end index have not overlapped
+
         if (startIndex < endIndex)
         {
             int pivotIndex = partition(array, startIndex, endIndex);
@@ -34,4 +35,5 @@ public class QuickSortGeneric <T extends Comparable<? super T>> {
             array[endIndex] = temp;
         }
     }
+
 }
