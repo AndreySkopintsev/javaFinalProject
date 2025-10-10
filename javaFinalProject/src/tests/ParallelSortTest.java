@@ -4,7 +4,8 @@ import sorting.ThreadPoolSort;
 
 public class ParallelSortTest {
     void main(){
-        String[] arrayOfStrings = {"Andree", "Leana", "Faviola", "Loyce", "Quincy", "Milo", "Jamila", "Toccara"};
+        //String[] arrayOfStrings = {"Andree", "Leana", "Faviola", "Loyce", "Quincy", "Milo", "Jamila", "Toccara"};
+        String[] arrayOfStrings = {"a", "d", "g", "e", "z", "b", "c", "x"};
         ThreadPoolSort<String> stringQuickSorter = new ThreadPoolSort<>();
         stringQuickSorter.parallelSort(arrayOfStrings);
 

@@ -72,13 +72,44 @@ public class ThreadPoolSort <T extends Comparable<? super T>> {
         @SuppressWarnings("unchecked")
 
         T[] tempArray = (T[]) new Comparable[originalArray.length];
-        int idx = 0;
-        for(T[] half:sortedHalves){
-            for(T elem:half){
-                tempArray[idx] = elem;
-                idx+=1;
+        int i = 0, j=0, k=0;
+
+        int leftLength = sortedHalves.get(0).length;
+        int rightLength = sortedHalves.get(1).length;
+        System.out.println(Arrays.toString(sortedHalves.get(0)));
+        System.out.println(Arrays.toString(sortedHalves.get(1)));
+        while (i < leftLength && j < rightLength) {
+            System.out.println(i + " ivalue is " + sortedHalves.get(0)[i]);
+            System.out.println(j + " jvalue is " + sortedHalves.get(1)[j]);
+            System.out.println("Comparison result: " + sortedHalves.get(0)[i].compareTo(sortedHalves.get(1)[j]));
+
+            if (sortedHalves.get(0)[i].compareTo(sortedHalves.get(1)[j]) <= 0) {
+                tempArray[k] = sortedHalves.get(0)[i];
+                i++;
+            } else {
+                tempArray[k] = sortedHalves.get(1)[j];
+                j++;
             }
+            k++;
+            System.out.println("Temp array: " + Arrays.toString(Arrays.copyOf(tempArray, k)));
         }
+
+
+        while (i < leftLength) {
+            tempArray[k] = sortedHalves.get(0)[i];
+            i++;
+            k++;
+            System.out.println("Copying remaining left: " + Arrays.toString(Arrays.copyOf(tempArray, k)));
+        }
+
+
+        while (j < rightLength) {
+            tempArray[k] = sortedHalves.get(1)[j];
+            j++;
+            k++;
+            System.out.println("Copying remaining right: " + Arrays.toString(Arrays.copyOf(tempArray, k)));
+        }
+
         System.arraycopy(tempArray, 0, originalArray, 0, tempArray.length);
     }
 }
