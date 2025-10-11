@@ -1,3 +1,4 @@
+import CustomClass.Car;
 import userInterface.UserInterface;
 
 import java.util.Scanner;
@@ -21,8 +22,10 @@ class Main{
 
         while (runProgram){
             ui.printCommands();//вывод пользовательского меню
+            String commandNumber = inputScanner.nextLine();//получаем номер команды от пользователя
+            //Car[] cars = ;
 
-            String commandNumber = inputScanner.nextLine();
+
             switch (commandNumber){
                 //TODO все "кейсы" можно заменить на константы или enum, в целом как будто можно и так оставить
                 //TODO функции чтения как будто по логике должны только возвращать массив Object, создание массива CustomClass
@@ -41,22 +44,20 @@ class Main{
                     ui.chooseInputType();
                     String inputType = inputScanner.nextLine();
                     switch(inputType){
-                        case "1"://Данные из файла
-
+                        case "1"://Данные из консоли
+                            //вызов функции чтения данных из консоли
                             break;
-                        case "2"://Данные из консоли
-
+                        case "2"://Данные из файла
+                            //вызов функции чтения из файла
                             break;
                         case "3"://Случайные данные
-
+                            //вызов функции случ. данных
                             break;
                         case "4"://Назад в меню
-
                             break;
                         default:
                             System.out.println("Введенная команда не поддерживается.");
                     }
-
 
                     break;
                 case "2"://Получить отсортированные данные
