@@ -1,7 +1,9 @@
+import userInterface.UserInterface;
+
 import java.util.Scanner;
 
 class Main{
-    void main() {
+    public static void main(String[] args) {
         //TODO пока разбиение на задачи для группы видится как:
         // София 1) main функция: тут реализовать интерфейс для пользователя, убрать все в методы, тестить все остальные ветки
         // + комменты
@@ -13,19 +15,21 @@ class Main{
         // Так же каждый делает по файлу для теста своих методов в папке tests.
         Scanner inputScanner = new Scanner(System.in);
 
-        while (true){
-            printCommands();
-            System.out.println("\nВведите команду из списка:");
-            String input = inputScanner.nextLine();
-            Object[] inputObjects = new Object[0];
-            boolean isExit = false;
-            switch (input){
+        UserInterface ui = new UserInterface();
+
+        boolean runProgram = true;
+
+        while (runProgram){
+            ui.printCommands();//вывод пользовательского меню
+
+            String commandNumber = inputScanner.nextLine();
+            switch (commandNumber){
                 //TODO все "кейсы" можно заменить на константы или enum, в целом как будто можно и так оставить
                 //TODO функции чтения как будто по логике должны только возвращать массив Object, создание массива CustomClass
                 // можно реализовать отдельно в том же CustomClass и передавать в метод массив Object. Какая-то валидация там уже не нужна
                 // так как мы должны будем послать уже на этом этапе
                 //все файлы для чтения входных данных пока лежат в папке readingInfo
-                case "UserInput":
+                case "1"://Ввод данных
                     //TODO добавить метод в UserInput, которая возвращает массив Object для дальнейшей обработки (Object потому юзер будет вводить String, double, int)
                     //TODO Так же имеет смысл видимо в той же функции прописать логику с длиной массива (у меня в голове длина массива от юзера==количеству инпутов
                     // + мне кажется надо проверять чтобы по типам вышло все ровно, то есть мы ждем от юзера равное количество разных типов String/double/int
@@ -34,38 +38,44 @@ class Main{
                     // 1) принимать длину массива
                     // 2) делать необходимое количество запросов на данные у юзера
                     // 3) валидировать что юзер не ввел гадостей/неверное количество ожидаемых данных
+                    ui.chooseInputType();
+                    String inputType = inputScanner.nextLine();
+                    switch(inputType){
+                        case "1"://Данные из файла
 
-                    //TODO просто тестовый метод посмотреть как из switch'a вернуть массив
-                    inputObjects = returnArray();
+                            break;
+                        case "2"://Данные из консоли
+
+                            break;
+                        case "3"://Случайные данные
+
+                            break;
+                        case "4"://Назад в меню
+
+                            break;
+                        default:
+                            System.out.println("Введенная команда не поддерживается.");
+                    }
+
+
                     break;
-                case "File":
-                    //TODO реализовать метод для чтения из файла в ReadingFromFile
-                    // В целом функционал как будто такой же: проверить валидность + небольшое отличие по длине массива можно сделать
-                    // чтобы читалось только n строк файла (типа длина переданного массива).
+                case "2"://Получить отсортированные данные
+
                     break;
-                case "Random":
-                    //TODO реализовать метод рандомного заполнения в RandomInfo. Тут у нас полный контроль и как будто валидация не нужна
-                    // кроме проверки длины массива, должна делиться на три без остатка. Далее просто возвращаем массив Object набитый рандомом,
-                    // но опять же важно чтобы количество данных каждого типа было равным
+
+                case "3"://Поиск элемента
+
+
                     break;
-                case "Exit":
-                    //TODO выход из цикла, не уверен как это можно сделать прям из switch'a думаю по какой-нибудь boolean переменной
-                    // типа isExit
-                    isExit = true;
+                case "4":
+                    runProgram = false;
                     break;
                 default:
-                    System.out.println("Введенная команда не поддерживается");
+                    System.out.println("Введенная команда не поддерживается.");
 
             }
 
-            if (isExit){
-                System.out.println("Спасибо что воспользовались нашей программой");
-                break;
-            }
-            //TODO удалить, тест для inputObjects, чтобы intellij не ругался
-            for(int i=0;i<inputObjects.length;i++){
-                System.out.println(inputObjects[i]);
-            }
+
             //TODO тут прокидывать массив Object в наш CustomClass метод для преобразования в массив типа CustomClass[]
 
             //TODO после получения массива CustomClass[] отправлять его в функцию многопоточной сортировки (пока в процессе,
@@ -74,15 +84,9 @@ class Main{
         }
     }
 
-    public void printCommands(){
-        //TODO просто написать несколько строк для команд типа "Введите UserInput для того чтобы ввести данные вручную"
-        System.out.println("hello");
-    }
 
-    //TODO на удаление, просто тест
-    public Object[] returnArray(){
-        return new Object[]{"Apple", 1, "Orange", 2.4};
-    }
+
+
 }
 
 
