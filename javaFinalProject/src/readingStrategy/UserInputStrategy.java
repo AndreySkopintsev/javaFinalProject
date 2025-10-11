@@ -1,6 +1,6 @@
 package readingStrategy;
 
-import vasilyevps.code.customClass.Car;
+import customClass.Car;
 
 import java.util.ArrayList;
 import java.util.List;
