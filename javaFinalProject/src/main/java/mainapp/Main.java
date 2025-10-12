@@ -1,3 +1,4 @@
+package mainapp;
 import customClass.Car;
 import readingStrategy.*;
 import search.BinarySearch;
@@ -18,6 +19,8 @@ class Main {
     private final ReadingStrategy userInput;
     private final ReadingStrategy fileInput;
     private final ReadingStrategy randomInput;
+    private final ReadingStrategy oneInput;
+
 
     private Comparator<Car> naturalComparator;
 
@@ -33,6 +36,7 @@ class Main {
         userInput = new UserInputStrategy();
         fileInput = new ReadingFromFileStrategy();
         randomInput = new RandomDataStrategy();
+        oneInput = new UserOneInputStrategy();
     }
 
     public void run() {
@@ -91,8 +95,10 @@ class Main {
                         break;
                     }
                     //TODO пользователь вводит для поиска данные
-                    Car key = new Car.Builder().setModel("BMW").setMaxSpeed(250.0).setWeight(1600).build();
 
+                    dataInput.setReadingStrategy(oneInput);
+                    List<Car> findCar = dataInput.getCollection();
+                    Car key = findCar.get(0);
 
                     int index = BinarySearch.search(cars, key, naturalComparator);
                     if(index != -1)
