@@ -57,15 +57,15 @@ public class Car implements Comparable<Car> {
 
     @Override
     public int compareTo(Car other) {
-        // Сначала сравниваем по имени
+        // Сначала сравниваем по модели
         int result = this.model.compareTo(other.model);
         if (result != 0) return result;
 
-        // Если имена одинаковые — по цене
+        // Если модели одинаковые — по скорости
         result = Double.compare(this.maxSpeed, other.maxSpeed);
         if (result != 0) return result;
 
-        // Если и цена одинакова — по количеству
+        // Если и скорость одинакова — по весу
         return Integer.compare(this.weight, other.weight);
     }
 
