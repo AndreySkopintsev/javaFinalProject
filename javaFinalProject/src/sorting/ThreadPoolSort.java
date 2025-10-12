@@ -2,6 +2,7 @@ package sorting;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -10,8 +11,17 @@ import java.util.concurrent.Future;
 
 public class ThreadPoolSort <T extends Comparable<? super T>> {
     private final QuickSortGeneric<T> quickSorter   = new QuickSortGeneric<>();
+    private Comparator<? super T> comparator;
 
-    public ThreadPoolSort(){};
+    //Дефолтный конструктор без компаратора
+    public ThreadPoolSort(){
+        this.comparator = null;
+    };
+
+    //Конструктор с компаратором
+    public ThreadPoolSort(Comparator<? super T> comparator) {
+        this.comparator = comparator;
+    }
 
     public void parallelSort(T[] array) {
         if (array == null) {
@@ -20,6 +30,10 @@ public class ThreadPoolSort <T extends Comparable<? super T>> {
 
         if (array.length <= 1) {
             return;
+        }
+
+        if (comparator != null) {
+            quickSorter.setComparator(comparator);
         }
 
         // Число тредов просто константой поставил 2
@@ -79,11 +93,17 @@ public class ThreadPoolSort <T extends Comparable<? super T>> {
         System.out.println(Arrays.toString(sortedHalves.get(0)));
         System.out.println(Arrays.toString(sortedHalves.get(1)));
         while (i < leftLength && j < rightLength) {
-            System.out.println(i + " ivalue is " + sortedHalves.get(0)[i]);
-            System.out.println(j + " jvalue is " + sortedHalves.get(1)[j]);
-            System.out.println("Comparison result: " + sortedHalves.get(0)[i].compareTo(sortedHalves.get(1)[j]));
+            int comparison;
 
-            if (sortedHalves.get(0)[i].compareTo(sortedHalves.get(1)[j]) <= 0) {
+            if (comparator != null) {
+                //если использовали конструктор с компаратором
+                comparison = comparator.compare(sortedHalves.get(0)[i], sortedHalves.get(1)[j]);
+            } else {
+                //соответственно если использовали конструктор без компаратора
+                comparison = ((Comparable<T>) sortedHalves.get(0)[i]).compareTo(sortedHalves.get(1)[j]);
+            }
+
+            if (comparison <= 0) {
                 tempArray[k] = sortedHalves.get(0)[i];
                 i++;
             } else {
@@ -91,7 +111,6 @@ public class ThreadPoolSort <T extends Comparable<? super T>> {
                 j++;
             }
             k++;
-            System.out.println("Temp array: " + Arrays.toString(Arrays.copyOf(tempArray, k)));
         }
 
 
@@ -99,7 +118,6 @@ public class ThreadPoolSort <T extends Comparable<? super T>> {
             tempArray[k] = sortedHalves.get(0)[i];
             i++;
             k++;
-            System.out.println("Copying remaining left: " + Arrays.toString(Arrays.copyOf(tempArray, k)));
         }
 
 
@@ -107,7 +125,6 @@ public class ThreadPoolSort <T extends Comparable<? super T>> {
             tempArray[k] = sortedHalves.get(1)[j];
             j++;
             k++;
-            System.out.println("Copying remaining right: " + Arrays.toString(Arrays.copyOf(tempArray, k)));
         }
 
         System.arraycopy(tempArray, 0, originalArray, 0, tempArray.length);

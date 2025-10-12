@@ -1,39 +1,48 @@
 package sorting;
 
 
-public class QuickSortGeneric <T extends Comparable<? super T>> {
-    public void quicksort(T[] array, int startIndex, int endIndex)
-    {
+import java.util.Comparator;
 
-        if (startIndex < endIndex)
-        {
-            int pivotIndex = partition(array, startIndex, endIndex);
-            quicksort(array, startIndex, pivotIndex);
-            quicksort(array, pivotIndex + 1, endIndex);
+public class QuickSortGeneric<T> {
+    private Comparator<? super T> comparator;
+
+    public void setComparator(Comparator<? super T> comparator) {
+        this.comparator = comparator;
+    }
+
+    public void quicksort(T[] array, int left, int right) {
+        if (left < right) {
+            int pivotIndex = partition(array, left, right);
+            quicksort(array, left, pivotIndex - 1);
+            quicksort(array, pivotIndex + 1, right);
         }
     }
 
-    private int partition(T[] array, int startIndex, int endIndex)
-    {
-        int pivotIndex = (startIndex + endIndex) / 2;
-        T pivotValue = array[pivotIndex];
-        startIndex--;
-        endIndex++;
+    private int partition(T[] array, int left, int right) {
+        T pivot = array[right];
+        int i = left - 1;
 
-        while (true)
-        {
-
-            do startIndex++; while (array[startIndex].compareTo(pivotValue) < 0) ;
-
-
-            do endIndex--; while (array[endIndex].compareTo(pivotValue) > 0) ;
-
-            if (startIndex >= endIndex) return endIndex;
-
-            T temp = array[startIndex];
-            array[startIndex] = array[endIndex];
-            array[endIndex] = temp;
+        for (int j = left; j < right; j++) {
+            if (compare(array[j], pivot) <= 0) {
+                i++;
+                T temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
         }
+        T temp = array[i + 1];
+        array[i + 1] = array[right];
+        array[right] = temp;
+        return i + 1;
     }
 
+    private int compare(T a, T b) {
+        if (comparator != null) {
+            //если компаратор существует, то использовать его
+            return comparator.compare(a, b);
+        } else {
+            //использовать безкомпараторную логику
+            return ((Comparable<T>) a).compareTo(b);
+        }
+    }
 }
