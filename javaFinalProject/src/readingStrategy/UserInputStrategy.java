@@ -1,0 +1,98 @@
+package readingStrategy;
+
+import customClass.Car;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class UserInputStrategy implements ReadingStrategy {
+
+    @Override
+    public List<Car> getData() {
+        Scanner sc = new Scanner(System.in);
+        int size = 0;
+        boolean isSizeCorrect = false;
+
+        while (!isSizeCorrect) {
+            System.out.println("Сколько объектов хотите добавить?");
+            if (sc.hasNextInt()) {
+                size = sc.nextInt();
+                if (size > 0) {
+                    isSizeCorrect = true;
+                } else {
+                    System.out.println("Значение должно быть больше нуля");
+                }
+            } else {
+                System.out.println("Значение должно быть числом");
+                sc.next();
+            }
+        }
+        sc.nextLine();
+        List<Car> collection = new ArrayList<>(size);
+
+        for (int i = 0; i < size; i++) {
+            String model = null;
+            double maxSpeed = 0;
+            int weight = 0;
+            System.out.println("Объект № " + (i + 1));
+            boolean isModelCorrect = false;
+            boolean isMaxSpeedCorrect = false;
+            boolean isWeightCorrect = false;
+
+            while (!isModelCorrect) {
+                System.out.println("Введите модель ");
+                if (sc.hasNextLine()) {
+                    model = sc.nextLine();
+                    if (!model.isBlank()) {
+                        isModelCorrect = true;
+                    } else {
+                        System.out.println("Модель не должна быть пустой");
+                    }
+                } else {
+                    System.out.println("Ошибка ввода");
+                    sc.nextLine();
+                }
+            }
+
+            while (!isMaxSpeedCorrect) {
+                System.out.println("Введите максимальную скорость");
+                if (sc.hasNextDouble()) {
+                    maxSpeed = sc.nextDouble();
+                    if (maxSpeed > 0) {
+                        isMaxSpeedCorrect = true;
+                    } else {
+                        System.out.println("Значение должно быть больше нуля");
+                    }
+                } else {
+                    System.out.println("Значение должно быть числом");
+                    sc.nextLine();
+                }
+            }
+
+            while (!isWeightCorrect) {
+                System.out.println("Введите вес");
+                if (sc.hasNextInt()) {
+                    weight = sc.nextInt();
+                    if (weight > 0) {
+                        isWeightCorrect = true;
+                    } else {
+                        System.out.println("Значение должно быть больше нуля");
+                    }
+                } else {
+                    System.out.println("Значение должно быть числом");
+                    sc.nextLine();
+                }
+            }
+
+            Car car = new Car.Builder()
+                    .setModel(model)
+                    .setMaxSpeed(maxSpeed)
+                    .setWeight(weight)
+                    .build();
+            collection.add(car);
+        }
+
+        return collection;
+    }
+}
