@@ -11,24 +11,9 @@ public class UserInputStrategy implements ReadingStrategy {
     @Override
     public List<Car> getData() {
         Scanner sc = new Scanner(System.in);
-        int size = 0;
-        boolean isSizeCorrect = false;
 
-        while (!isSizeCorrect) {
-            System.out.println("Сколько объектов хотите добавить?");
-            if (sc.hasNextInt()) {
-                size = sc.nextInt();
-                if (size > 0) {
-                    isSizeCorrect = true;
-                } else {
-                    System.out.println("Значение должно быть больше нуля");
-                }
-            } else {
-                System.out.println("Значение должно быть числом");
-                sc.next();
-            }
-        }
-        sc.nextLine();
+        int size = InputUtils.getNumberFromUser();
+
         List<Car> collection = new ArrayList<>(size);
 
         for (int i = 0; i < size; i++) {
@@ -84,6 +69,7 @@ public class UserInputStrategy implements ReadingStrategy {
                     sc.nextLine();
                 }
             }
+            sc.nextLine();
 
             Car car = new Car.Builder()
                     .setModel(model)
