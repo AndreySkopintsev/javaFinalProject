@@ -25,7 +25,7 @@ public class ThreadPoolSort <T extends Comparable<? super T>> {
 
     public void parallelSort(T[] array) {
         if (array == null) {
-            throw new IllegalArgumentException("array sent is null");
+            throw new IllegalArgumentException("переданный массив null");
         }
 
         if (array.length <= 1) {
@@ -57,7 +57,7 @@ public class ThreadPoolSort <T extends Comparable<? super T>> {
 
         }catch (InterruptedException | ExecutionException e){
             Thread.currentThread().interrupt();
-            throw new RuntimeException("Sorting was interrupted", e);
+            throw new RuntimeException("сортировка была прервана", e);
         } finally {
             executorService.shutdown();
         }
