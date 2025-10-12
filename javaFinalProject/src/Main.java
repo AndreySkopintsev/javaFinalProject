@@ -14,7 +14,11 @@ class Main {
     private final UserInterface ui;
     private List<Car> cars;
 
-    private ReadingStrategy inputStrategy;
+    private FileReader dataInput;
+    private final ReadingStrategy userInput;
+    private final ReadingStrategy fileInput;
+    private final ReadingStrategy randomInput;
+
     private Comparator<Car> naturalComparator;
 
 
@@ -24,6 +28,11 @@ class Main {
         this.ui = new UserInterface();
         this.cars = new ArrayList<>();
         this.naturalComparator = Car::compareTo;
+
+        this.dataInput = new FileReader();
+        userInput = new UserInputStrategy();
+        fileInput = new ReadingFromFileStrategy();
+        randomInput = new RandomDataStrategy();
     }
 
     public void run() {
@@ -41,22 +50,20 @@ class Main {
 
                     switch (inputType) {
                         case "1"://Данные из консоли
-                            inputStrategy = new UserInputStrategy();
-                            cars = inputStrategy.getData();
+                            dataInput.setReadingStrategy(userInput);
                             break;
                         case "2"://Данные из файла
-                            inputStrategy = new ReadingFromFileStrategy();
-                            cars = inputStrategy.getData();
+                            dataInput.setReadingStrategy(fileInput);
                             break;
                         case "3"://Случайные данные
-                            inputStrategy = new RandomDataStrategy();
-                            cars = inputStrategy.getData();
+                            dataInput.setReadingStrategy(randomInput);
                             break;
                         case "4"://Назад в меню
                             break;
                         default:
                             System.out.println("Введенная команда не поддерживается.");
                     }
+                    cars = dataInput.getCollection();//ввод данных
 
                     if (cars != null && !cars.isEmpty()) {
                         ThreadPoolSort sort = new ThreadPoolSort<>();
@@ -65,7 +72,6 @@ class Main {
                     } else {
                         System.out.println("Нет данных для сортировки.");
                     }
-
                     break;
 
                 case "2"://Получить отсортированные данные
@@ -86,8 +92,7 @@ class Main {
                     }
                     //TODO пользователь вводит для поиска данные
                     Car key = new Car.Builder().setModel("BMW").setMaxSpeed(250.0).setWeight(1600).build();
-                    //TODO если решим делать поиск по разным полям отдельно
-                    //Comparator<Car> byModel = Comparator.comparing(Car::getModel);
+
 
                     int index = BinarySearch.search(cars, key, naturalComparator);
                     if(index != -1)
@@ -124,10 +129,5 @@ class Main {
 // Андрей 5) Сортировка  (папка sorting)
 // Так же каждый делает по файлу для теста своих методов в папке tests.
 
-//Вопросы
-//1. Просмотр отсортированных данных по отдельной команде
-//2. При сортировке вывод на английском языке
-//3. Поиск в каком виде должен быть? по модели и тд, пользователь вводит модель для поиска или как, сам ли он выбирает вообще
-//4. В свиче я выбираю по цифрам, могу переделать по enum, если это имеет смысл
 
 
