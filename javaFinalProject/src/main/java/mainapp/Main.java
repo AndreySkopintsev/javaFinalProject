@@ -5,7 +5,10 @@ import search.BinarySearch;
 import sorting.ThreadPoolSort;
 import userInterface.UserInterface;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
 
 class Main {
     private final Scanner inputScanner;
@@ -39,7 +42,6 @@ class Main {
     public void run() {
 
         boolean runProgram = true;
-
 
         while (runProgram) {
             ui.printCommands();//вывод пользовательского меню
@@ -94,16 +96,18 @@ class Main {
                         System.out.println("Нет данных для поиска. Сначала введите данные.");
                         break;
                     }
+                    //TODO пользователь вводит для поиска данные
 
                     dataInput.setReadingStrategy(oneInput);
                     List<Car> findCar = dataInput.getCollection();
                     Car key = findCar.get(0);
-                    int index = BinarySearch.search(cars, key, naturalComparator);
-                    if(index != -1)
-                        System.out.println("Номер элемента в массиве: " + (index+1));
-                    else
-                        System.out.println("Элемент не найден.");
 
+                    boolean found = BinarySearch.contains(cars, key, naturalComparator);
+                    if (found) {
+                        System.out.println("Элемент найден");
+                    } else {
+                        System.out.println("Элемент не найден");
+                    }
                     break;
 
                 case "4":
@@ -122,5 +126,16 @@ class Main {
     }
 
 }
+
+//TODO пока разбиение на задачи для группы видится как:
+// София 1) main функция: тут реализовать интерфейс для пользователя, убрать все в методы, тестить все остальные ветки
+// + комменты
+// + валидация
+// Алексей 2) CustomClass + builder (папка customClass)
+// Павел 3) Методы чтения входных данных + strategy pattern (папка readingInfo)
+// Виталий 4) Бинарный поиск (папка binarySearch)
+// Андрей 5) Сортировка  (папка sorting)
+// Так же каждый делает по файлу для теста своих методов в папке tests.
+
 
 
