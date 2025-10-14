@@ -19,7 +19,7 @@ public class RandomDataStrategy implements ReadingStrategy{
             int weight = new Random().nextInt(1000, 2000);
             Car car = new Car.Builder()
                     .setModel(model)
-                    .setMaxSpeed(maxSpeed)
+                    .setMaxSpeed(InputUtils.roundDoubleNumber(maxSpeed, 2))
                     .setWeight(weight)
                     .build();
             collection.add(car);
