@@ -69,7 +69,7 @@ class Main {
                     if (cars != null && !cars.isEmpty()) {
                         ThreadPoolSort sort = new ThreadPoolSort<>();
                         Car[] carArray = cars.toArray(new Car[0]);
-                        sort.parallelSort(cars.toArray(carArray));
+                        sort.parallelSort(cars);
                         cars = Arrays.asList(carArray);
                         System.out.println("Данные успешно отсортированы.");
                     } else {
