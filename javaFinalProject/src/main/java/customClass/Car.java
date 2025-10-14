@@ -14,6 +14,10 @@ public class Car implements Comparable<Car> {
         this.weight = builder.weight;
     }
 
+    private static String normalizeModel(String model) {
+        return model.replaceAll("\\s+", "").toUpperCase();
+    }
+
     public String getModel() { return model; }
     public double getMaxSpeed() { return maxSpeed; }
     public int getWeight() { return weight; }
@@ -24,7 +28,10 @@ public class Car implements Comparable<Car> {
         private int weight;
 
         public Builder setModel(String model) {
-            this.model = model;
+            if (model == null || model.isBlank()) {
+                throw new IllegalArgumentException("Введено неверное значение модели.");
+            }
+            this.model = normalizeModel(model);
             return this;
         }
 

@@ -34,11 +34,16 @@ public class BinarySearch {
     }
 
     public static <T> boolean contains(List<T> list, T key, Comparator<? super T> comparator) {
-        int index = search(list, key, comparator);
-        boolean found = index != -1;
+        checkSorted(list, comparator); // проверяем сортировку перед поиском
+        return search(list, key, comparator) != -1;
+    }
 
-        System.out.printf("Элемент '%s' %s найден.%n", key, found ? "" : "не");
-
-        return found;
+    // Проверка, что список отсортирован по компаратору
+    private static <T> void checkSorted(List<T> list, Comparator<? super T> comparator) {
+        for (int i = 1; i < list.size(); i++) {
+            if (comparator.compare(list.get(i - 1), list.get(i)) > 0) {
+                throw new IllegalArgumentException("Список не отсортирован. Сначала отсортируйте список.");
+            }
+        }
     }
 }
