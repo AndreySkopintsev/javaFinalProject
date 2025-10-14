@@ -90,8 +90,6 @@ public class ThreadPoolSort <T extends Comparable<? super T>> {
 
         int leftLength = sortedHalves.get(0).length;
         int rightLength = sortedHalves.get(1).length;
-        System.out.println(Arrays.toString(sortedHalves.get(0)));
-        System.out.println(Arrays.toString(sortedHalves.get(1)));
         while (i < leftLength && j < rightLength) {
             int comparison;
 
