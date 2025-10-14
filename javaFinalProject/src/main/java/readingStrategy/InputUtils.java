@@ -26,4 +26,9 @@ public class InputUtils {
         sc.nextLine();
         return number;
     }
+
+    public static double roundDoubleNumber(double number, int digits) {
+        double scale = Math.pow(10, digits);
+        return Math.ceil(number * scale) / scale;
+    }
 }
