@@ -5,10 +5,7 @@ import search.BinarySearch;
 import sorting.ThreadPoolSort;
 import userInterface.UserInterface;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 class Main {
     private final Scanner inputScanner;
@@ -96,7 +93,6 @@ class Main {
                         System.out.println("Нет данных для поиска. Сначала введите данные.");
                         break;
                     }
-                    //TODO пользователь вводит для поиска данные
 
                     dataInput.setReadingStrategy(oneInput);
                     List<Car> findCar = dataInput.getCollection();
@@ -126,16 +122,4 @@ class Main {
     }
 
 }
-
-//TODO пока разбиение на задачи для группы видится как:
-// София 1) main функция: тут реализовать интерфейс для пользователя, убрать все в методы, тестить все остальные ветки
-// + комменты
-// + валидация
-// Алексей 2) CustomClass + builder (папка customClass)
-// Павел 3) Методы чтения входных данных + strategy pattern (папка readingInfo)
-// Виталий 4) Бинарный поиск (папка binarySearch)
-// Андрей 5) Сортировка  (папка sorting)
-// Так же каждый делает по файлу для теста своих методов в папке tests.
-
-
 
