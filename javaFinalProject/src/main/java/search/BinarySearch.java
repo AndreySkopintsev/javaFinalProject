@@ -1,10 +1,5 @@
 package search;
 
-import customClass.Car;
-import readingStrategy.FileReader;
-import readingStrategy.ReadingStrategy;
-import readingStrategy.UserOneInputStrategy;
-
 import java.util.Comparator;
 import java.util.List;
 
@@ -19,7 +14,7 @@ public class BinarySearch {
     private BinarySearch() {
     }
 
-    public static <T> int search(List<T> list, T key, Comparator<T> comparator) {
+    public static <T> int search(List<T> list, T key, Comparator<? super T> comparator) {
         int left = 0, right = list.size() - 1;
 
         while (left <= right) {
@@ -38,16 +33,12 @@ public class BinarySearch {
         return -1; // ключ не найден в списке
     }
 
-    // Метод для поиска элемента и вывода результата в консоль
-    public static <T> boolean containsAndPrint(List<T> list, T key, Comparator<T> comparator) {
+    public static <T> boolean contains(List<T> list, T key, Comparator<? super T> comparator) {
         int index = search(list, key, comparator);
+        boolean found = index != -1;
 
-        if (index != -1) {
-            System.out.printf("Элемент найден: %s (номер в списке: %d)%n", list.get(index), index + 1);
-            return true;
-        } else {
-            System.out.printf("Элемент не найден.%n");
-            return false;
-        }
+        System.out.printf("Элемент '%s' %s найден.%n", key, found ? "" : "не");
+
+        return found;
     }
 }

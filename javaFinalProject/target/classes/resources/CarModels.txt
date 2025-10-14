@@ -1,6 +1,0 @@
-{"model":"Tesla Model Y", "maxSpeed":200.00,"weight":2000}
-{"model":"Toyota Corolla", "maxSpeed":195.00,"weight":1400}
-{"model":"Toyota RAV4", "maxSpeed":190.00,"weight":1600}
-{"model":"Ford F-Series", "maxSpeed":240.00,"weight":2000}
-{"model":"Honda CR-V", "maxSpeed":190.00,"weight":1600}
-{"model":"Chevrolet Silverado", "maxSpeed":190.00,"weight":2000}

@@ -100,7 +100,12 @@ class Main {
                     List<Car> findCar = dataInput.getCollection();
                     Car key = findCar.get(0);
 
-                    boolean searchElement = BinarySearch.containsAndPrint(cars, key, naturalComparator);
+                    boolean found = BinarySearch.contains(cars, key, naturalComparator);
+                    if (found) {
+                        System.out.println("Элемент найден");
+                    } else {
+                        System.out.println("Элемент не найден");
+                    }
                     break;
 
                 case "4":
