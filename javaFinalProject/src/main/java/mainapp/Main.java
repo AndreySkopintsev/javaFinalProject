@@ -112,8 +112,8 @@ class Main {
                 default:
                     System.out.println("Введенная команда не поддерживается.");
             }
-
         }
+        inputScanner.close();
     }
 
     public static void main(String[] args) {
@@ -121,5 +121,3 @@ class Main {
     }
 
 }
-
-

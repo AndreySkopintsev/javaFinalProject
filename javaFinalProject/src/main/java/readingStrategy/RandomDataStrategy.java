@@ -13,10 +13,11 @@ public class RandomDataStrategy implements ReadingStrategy{
 
         List<Car> collection = new ArrayList<>(size);
 
+        Random rand = new Random();
         for (int i = 0; i < size; i++) {
             String model = CarModel.getRandomModel().toString();
-            double maxSpeed = new Random().nextDouble(150, 200);
-            int weight = new Random().nextInt(1000, 2000);
+            double maxSpeed = rand.nextDouble(150, 200);
+            int weight = rand.nextInt(1000, 2000);
             Car car = new Car.Builder()
                     .setModel(model)
                     .setMaxSpeed(InputUtils.roundDoubleNumber(maxSpeed, 2))
