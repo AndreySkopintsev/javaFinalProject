@@ -5,10 +5,7 @@ import search.BinarySearch;
 import sorting.ThreadPoolSort;
 import userInterface.UserInterface;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 class Main {
     private final Scanner inputScanner;
@@ -43,6 +40,7 @@ class Main {
 
         boolean runProgram = true;
 
+
         while (runProgram) {
             ui.printCommands();//вывод пользовательского меню
             String commandNumber = inputScanner.nextLine();//получаем номер команды от пользователя
@@ -71,7 +69,9 @@ class Main {
 
                     if (cars != null && !cars.isEmpty()) {
                         ThreadPoolSort sort = new ThreadPoolSort<>();
-                        sort.parallelSort(cars.toArray(new Car[0]));
+                        Car[] carArray = cars.toArray(new Car[0]);
+                        sort.parallelSort(cars.toArray(carArray));
+                        cars = Arrays.asList(carArray);
                         System.out.println("Данные успешно отсортированы.");
                     } else {
                         System.out.println("Нет данных для сортировки.");
@@ -94,7 +94,6 @@ class Main {
                         System.out.println("Нет данных для поиска. Сначала введите данные.");
                         break;
                     }
-                    //TODO пользователь вводит для поиска данные
 
                     dataInput.setReadingStrategy(oneInput);
                     List<Car> findCar = dataInput.getCollection();
@@ -124,16 +123,5 @@ class Main {
     }
 
 }
-
-//TODO пока разбиение на задачи для группы видится как:
-// София 1) main функция: тут реализовать интерфейс для пользователя, убрать все в методы, тестить все остальные ветки
-// + комменты
-// + валидация
-// Алексей 2) CustomClass + builder (папка customClass)
-// Павел 3) Методы чтения входных данных + strategy pattern (папка readingInfo)
-// Виталий 4) Бинарный поиск (папка binarySearch)
-// Андрей 5) Сортировка  (папка sorting)
-// Так же каждый делает по файлу для теста своих методов в папке tests.
-
 
 

@@ -72,11 +72,7 @@ public class Car implements Comparable<Car> {
 
     @Override
     public String toString() {
-        return String.format("%s: maxSpeed=%.2f, weight=%d", model, maxSpeed, weight);
+        return String.format("%s: максимальная скорость=%.2f, вес=%d", model, maxSpeed, weight);
     }
 
-
-
-    //TODO реализовать паттерн Builder + добавить валидацию данных
-    //    //TODO валидация данных, как я понимаю, это как минимум проверка на то что переданные данные сортируемы (не boolean, Strings не содержат символов)
 }
