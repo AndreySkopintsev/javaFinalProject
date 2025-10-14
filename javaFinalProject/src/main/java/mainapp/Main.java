@@ -100,12 +100,7 @@ class Main {
                     List<Car> findCar = dataInput.getCollection();
                     Car key = findCar.get(0);
 
-                    int index = BinarySearch.search(cars, key, naturalComparator);
-                    if(index != -1)
-                        System.out.println("Номер элемента в массиве: " + (index+1));
-                    else
-                        System.out.println("Элемент не найден.");
-
+                    boolean searchElement = BinarySearch.containsAndPrint(cars, key, naturalComparator);
                     break;
 
                 case "4":

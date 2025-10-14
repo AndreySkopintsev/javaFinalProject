@@ -1,5 +1,10 @@
 package search;
 
+import customClass.Car;
+import readingStrategy.FileReader;
+import readingStrategy.ReadingStrategy;
+import readingStrategy.UserOneInputStrategy;
+
 import java.util.Comparator;
 import java.util.List;
 
@@ -33,55 +38,16 @@ public class BinarySearch {
         return -1; // ключ не найден в списке
     }
 
-    public static String searchCarFlexible(List<Car> list) {
-        if (list == null || list.isEmpty()) {
-            return "Список пустой, поиск невозможен.";
+    // Метод для поиска элемента и вывода результата в консоль
+    public static <T> boolean containsAndPrint(List<T> list, T key, Comparator<T> comparator) {
+        int index = search(list, key, comparator);
+
+        if (index != -1) {
+            System.out.printf("Элемент найден: %s (номер в списке: %d)%n", list.get(index), index + 1);
+            return true;
+        } else {
+            System.out.printf("Элемент не найден.%n");
+            return false;
         }
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("Введите данные автомобиля для поиска (можно оставить пустым):");
-
-        System.out.print("Модель: ");
-        String model = sc.nextLine().trim();
-        if (model.isEmpty()) model = null;
-
-        Double maxSpeed = null;
-        System.out.print("Максимальная скорость: ");
-        String speedInput = sc.nextLine().trim();
-        if (!speedInput.isEmpty()) {
-            try {
-                maxSpeed = Double.parseDouble(speedInput);
-            } catch (NumberFormatException e) {
-                System.out.println("Скорость введена неверно. Поле будет игнорироваться.");
-            }
-        }
-
-        Integer weight = null;
-        System.out.print("Вес: ");
-        String weightInput = sc.nextLine().trim();
-        if (!weightInput.isEmpty()) {
-            try {
-                weight = Integer.parseInt(weightInput);
-            } catch (NumberFormatException e) {
-                System.out.println("Вес введен неверно. Поле будет игнорироваться.");
-            }
-        }
-
-        // Ищем первый элемент, который подходит под все указанные поля
-        for (int i = 0; i < list.size(); i++) {
-            Car car = list.get(i);
-            boolean match = true;
-
-            if (model != null && !car.getModel().equalsIgnoreCase(model)) match = false;
-            if (maxSpeed != null && Double.compare(car.getMaxSpeed(), maxSpeed) != 0) match = false;
-            if (weight != null && car.getWeight() != weight) match = false;
-
-            if (match) {
-                return "Элемент найден на позиции: " + (i + 1);
-            }
-        }
-
-        return "Элемент не найден";
     }
 }
