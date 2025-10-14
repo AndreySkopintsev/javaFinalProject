@@ -68,10 +68,8 @@ class Main {
                     cars = dataInput.getCollection();//ввод данных
 
                     if (cars != null && !cars.isEmpty()) {
-                        ThreadPoolSort sort = new ThreadPoolSort<>();
-                        Car[] carArray = cars.toArray(new Car[0]);
-                        sort.parallelSort(cars.toArray(carArray));
-                        cars = Arrays.asList(carArray);
+                        ThreadPoolSort<Car> sort = new ThreadPoolSort<>();
+                        sort.parallelSort(cars);
                         System.out.println("Данные успешно отсортированы.");
                     } else {
                         System.out.println("Нет данных для сортировки.");

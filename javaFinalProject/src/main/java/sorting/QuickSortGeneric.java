@@ -1,7 +1,7 @@
 package sorting;
 
-
 import java.util.Comparator;
+import java.util.List;
 
 public class QuickSortGeneric<T> {
     private Comparator<? super T> comparator;
@@ -10,32 +10,44 @@ public class QuickSortGeneric<T> {
         this.comparator = comparator;
     }
 
-    public void quicksort(T[] array, int left, int right) {
+    public void quicksort(List<T> list) {
+        if (list == null || list.size() <= 1) {
+            return;
+        }
+        quicksort(list, 0, list.size() - 1);
+    }
+
+    //сортировка
+    private void quicksort(List<T> list, int left, int right) {
         if (left < right) {
-            int pivotIndex = partition(array, left, right);
-            quicksort(array, left, pivotIndex - 1);
-            quicksort(array, pivotIndex + 1, right);
+            int pivotIndex = partition(list, left, right);
+            quicksort(list, left, pivotIndex - 1);
+            quicksort(list, pivotIndex + 1, right);
         }
     }
 
-    private int partition(T[] array, int left, int right) {
-        T pivot = array[right];
+    //метод разделения
+    private int partition(List<T> list, int left, int right) {
+        T pivot = list.get(right);
         int i = left - 1;
 
         for (int j = left; j < right; j++) {
-            if (compare(array[j], pivot) <= 0) {
+            if (compare(list.get(j), pivot) <= 0) {
                 i++;
-                T temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
+                T temp = list.get(i);
+                list.set(i, list.get(j));
+                list.set(j, temp);
             }
         }
-        T temp = array[i + 1];
-        array[i + 1] = array[right];
-        array[right] = temp;
+
+        T temp = list.get(i + 1);
+        list.set(i + 1, list.get(right));
+        list.set(right, temp);
+
         return i + 1;
     }
 
+    //метод для сравнения
     private int compare(T a, T b) {
         if (comparator != null) {
             //если компаратор существует, то использовать его
@@ -45,4 +57,5 @@ public class QuickSortGeneric<T> {
             return ((Comparable<T>) a).compareTo(b);
         }
     }
+
 }

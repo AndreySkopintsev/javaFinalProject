@@ -4,6 +4,7 @@ import customClass.Car;
 import sorting.ThreadPoolSort;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class ParallelSortTest {
     public static void run(){
@@ -16,7 +17,7 @@ public class ParallelSortTest {
         };
 
         ThreadPoolSort<Car> sortCars = new ThreadPoolSort<>();
-        sortCars.parallelSort(cars);
+        sortCars.parallelSort(List.of(cars));
         System.out.println("cars sorted by weight:" + Arrays.toString(cars));
 
         //Кейс: все модели разные
@@ -28,7 +29,7 @@ public class ParallelSortTest {
         };
 
         ThreadPoolSort<Car> sortCars2 = new ThreadPoolSort<>();
-        sortCars2.parallelSort(cars2);
+        sortCars2.parallelSort(List.of(cars2));
         System.out.println("cars sorted by name:" + Arrays.toString(cars2));
 
         //Кейс: все модели одинаковые, скорость одинаковая, разный вес
@@ -41,7 +42,7 @@ public class ParallelSortTest {
 
 
         ThreadPoolSort<Car> sortCars3 = new ThreadPoolSort<>();
-        sortCars3.parallelSort(cars3);
+        sortCars3.parallelSort(List.of(cars3));
         System.out.println("cars sorted by speed:" + Arrays.toString(cars3));
 
         //Кейс: разные модели, есть две одинаковых с разной скоростью
@@ -53,7 +54,7 @@ public class ParallelSortTest {
         };
 
         ThreadPoolSort<Car> sortCars4 = new ThreadPoolSort<>();
-        sortCars4.parallelSort(cars4);
+        sortCars4.parallelSort(List.of(cars4));
         System.out.println("cars sorted by name and weight:" + Arrays.toString(cars4));
     }
     public static void main(String[] args) {

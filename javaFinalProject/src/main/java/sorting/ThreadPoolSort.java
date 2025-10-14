@@ -1,7 +1,6 @@
 package sorting;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -13,22 +12,23 @@ public class ThreadPoolSort <T extends Comparable<? super T>> {
     private final QuickSortGeneric<T> quickSorter   = new QuickSortGeneric<>();
     private Comparator<? super T> comparator;
 
-    //Дефолтный конструктор без компаратора
+    //дефолтный конструктор без компаратора
     public ThreadPoolSort(){
         this.comparator = null;
     };
 
-    //Конструктор с компаратором
+    //конструктор с компаратором
     public ThreadPoolSort(Comparator<? super T> comparator) {
         this.comparator = comparator;
     }
 
-    public void parallelSort(T[] array) {
-        if (array == null) {
-            throw new IllegalArgumentException("переданный массив null");
+
+    public void parallelSort(List<T> list) {
+        if (list == null) {
+            throw new IllegalArgumentException("переданный список null");
         }
 
-        if (array.length <= 1) {
+        if (list.size() <= 1) {
             return;
         }
 
@@ -36,95 +36,82 @@ public class ThreadPoolSort <T extends Comparable<? super T>> {
             quickSorter.setComparator(comparator);
         }
 
-        // Число тредов просто константой поставил 2
+        //число тредов константой поставил 2
         ExecutorService executorService = Executors.newFixedThreadPool(2);
-        ArrayList<T[]> arrayOfHalves = splitArrayInHalf(array);
-        try {
+        List<List<T>> listOfHalves = splitListInHalf(list);
 
-            //futureExecs - массив типа Future, результат асинхронной работы тредов
+        try {
             List<Future<?>> futureExecs = new ArrayList<>();
-            for (T[] half : arrayOfHalves) {
+            for (List<T> half : listOfHalves) {
                 Future<?> future = executorService.submit(() -> {
-                    quickSorter.quicksort(half, 0, half.length-1);
+                    quickSorter.quicksort(half);
                 });
                 futureExecs.add(future);
             }
 
-            //Тут ждем пока все треды закончат выполнение, get() заставляет приложение ждать пока не выполнятся все future задачи
             for (Future<?> future : futureExecs) {
                 future.get();
             }
 
-        }catch (InterruptedException | ExecutionException e){
+        } catch (InterruptedException | ExecutionException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("сортировка была прервана", e);
         } finally {
             executorService.shutdown();
         }
 
-        mergeSortedHalves(array,arrayOfHalves);
-
+        mergeSortedHalves(list, listOfHalves);
     }
 
-    //splitArrayInHalf делит массив пополам, по половине на каждый поток
-    public ArrayList<T[]> splitArrayInHalf(T[] array){
-        ArrayList<T[]> arrayOfHalves = new ArrayList<>();
-        int midIndex = array.length / 2;
+    private List<List<T>> splitListInHalf(List<T> list) {
+        List<List<T>> listOfHalves = new ArrayList<>();
+        int midIndex = list.size() / 2;
 
-        // Первая половина
-        T[] firstHalf = Arrays.copyOfRange(array, 0, midIndex);
-        arrayOfHalves.add(firstHalf);
+        List<T> firstHalf = new ArrayList<>(list.subList(0, midIndex));
+        List<T> secondHalf = new ArrayList<>(list.subList(midIndex, list.size()));
 
-        // Вторая половина
-        T[] secondHalf = Arrays.copyOfRange(array, midIndex, array.length);
-        arrayOfHalves.add(secondHalf);
+        listOfHalves.add(firstHalf);
+        listOfHalves.add(secondHalf);
 
-        return arrayOfHalves;
+        return listOfHalves;
     }
 
-    public void mergeSortedHalves(T[] originalArray, ArrayList<T[]> sortedHalves){
-        @SuppressWarnings("unchecked")
+    private void mergeSortedHalves(List<T> originalList, List<List<T>> sortedHalves) {
+        List<T> tempList = new ArrayList<>();
+        List<T> leftHalf = sortedHalves.get(0);
+        List<T> rightHalf = sortedHalves.get(1);
 
-        T[] tempArray = (T[]) new Comparable[originalArray.length];
-        int i = 0, j=0, k=0;
+        int i = 0, j = 0;
 
-        int leftLength = sortedHalves.get(0).length;
-        int rightLength = sortedHalves.get(1).length;
-        while (i < leftLength && j < rightLength) {
+        while (i < leftHalf.size() && j < rightHalf.size()) {
             int comparison;
-
             if (comparator != null) {
-                //если использовали конструктор с компаратором
-                comparison = comparator.compare(sortedHalves.get(0)[i], sortedHalves.get(1)[j]);
+                comparison = comparator.compare(leftHalf.get(i), rightHalf.get(j));
             } else {
-                //соответственно если использовали конструктор без компаратора
-                comparison = ((Comparable<T>) sortedHalves.get(0)[i]).compareTo(sortedHalves.get(1)[j]);
+                comparison = leftHalf.get(i).compareTo(rightHalf.get(j));
             }
 
             if (comparison <= 0) {
-                tempArray[k] = sortedHalves.get(0)[i];
+                tempList.add(leftHalf.get(i));
                 i++;
             } else {
-                tempArray[k] = sortedHalves.get(1)[j];
+                tempList.add(rightHalf.get(j));
                 j++;
             }
-            k++;
         }
 
-
-        while (i < leftLength) {
-            tempArray[k] = sortedHalves.get(0)[i];
+        while (i < leftHalf.size()) {
+            tempList.add(leftHalf.get(i));
             i++;
-            k++;
         }
 
-
-        while (j < rightLength) {
-            tempArray[k] = sortedHalves.get(1)[j];
+        while (j < rightHalf.size()) {
+            tempList.add(rightHalf.get(j));
             j++;
-            k++;
         }
 
-        System.arraycopy(tempArray, 0, originalArray, 0, tempArray.length);
+        //заменяем содержимое оригинального списка
+        originalList.clear();
+        originalList.addAll(tempList);
     }
 }
