@@ -1,4 +1,5 @@
 package mainapp;
+
 import customClass.Car;
 import readingStrategy.*;
 import search.BinarySearch;
@@ -96,12 +97,10 @@ class Main {
                     dataInput.setReadingStrategy(oneInput);
                     List<Car> findCar = dataInput.getCollection();
                     Car key = findCar.get(0);
-                    int index = BinarySearch.search(cars, key, naturalComparator);
-                    if(index != -1)
-                        System.out.println("Номер элемента в массиве: " + (index+1));
-                    else
-                        System.out.println("Элемент не найден.");
 
+                    System.out.printf("Элемент '%s' %s найден.%n",
+                            key,
+                            BinarySearch.contains(cars, key, naturalComparator) ? "" : "не");
                     break;
 
                 case "4":
@@ -120,5 +119,3 @@ class Main {
     }
 
 }
-
-

@@ -14,7 +14,7 @@ public class BinarySearch {
     private BinarySearch() {
     }
 
-    public static <T> int search(List<T> list, T key, Comparator<T> comparator) {
+    public static <T> int search(List<T> list, T key, Comparator<? super T> comparator) {
         int left = 0, right = list.size() - 1;
 
         while (left <= right) {
@@ -31,5 +31,19 @@ public class BinarySearch {
             }
         }
         return -1; // ключ не найден в списке
+    }
+
+    public static <T> boolean contains(List<T> list, T key, Comparator<? super T> comparator) {
+        checkSorted(list, comparator); // проверяем сортировку перед поиском
+        return search(list, key, comparator) != -1;
+    }
+
+    // Проверка, что список отсортирован по компаратору
+    private static <T> void checkSorted(List<T> list, Comparator<? super T> comparator) {
+        for (int i = 1; i < list.size(); i++) {
+            if (comparator.compare(list.get(i - 1), list.get(i)) > 0) {
+                throw new IllegalArgumentException("Список не отсортирован. Сначала отсортируйте список.");
+            }
+        }
     }
 }

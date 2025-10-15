@@ -28,7 +28,9 @@ public class InputUtils {
     }
 
     public static double roundDoubleNumber(double number, int digits) {
+        if (digits < 0) throw new IllegalArgumentException(
+                "Количество знаков после запятой не может быть отрицательным");
         double scale = Math.pow(10, digits);
-        return Math.ceil(number * scale) / scale;
+        return Math.round(number * scale) / scale;
     }
 }
